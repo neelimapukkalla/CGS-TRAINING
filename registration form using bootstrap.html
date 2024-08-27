@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header text-center">
+            <img src="image.png" alt="Logo" class="img-fluid mb-3" style="width: 100px ;">
+            <h2>Student Registration Form</h2>
+            <p>Fill out the form to apply for the training courses. You can consider your application accepted after you receive a confirmation email.</p>
+        </div>
+        <div class="card-body">
+            <form>
+                <h5 class="mb-3">Student Information</h5>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="middleName">Middle Name</label>
+                        <input type="text" class="form-control" id="middleName" placeholder="Middle Name">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" class="form-control" id="studentId" placeholder="Student ID">
+                    </div>
+                </div>
+
+                <h5 class="mb-3">Address</h5>
+                <div class="form-group">
+                    <label for="streetAddress">Street Address</label>
+                    <input type="text" class="form-control" id="streetAddress" placeholder="Street Address">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" placeholder="City">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="state">State / Province</label>
+                        <input type="text" class="form-control" id="state" placeholder="State / Province">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="zipCode">ZIP Code</label>
+                        <input type="text" class="form-control" id="zipCode" placeholder="ZIP Code">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" id="country" placeholder="Country">
+                </div>
+
+                <h5 class="mb-3">Contact Information</h5>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" class="form-control" id="email" placeholder="E-mail">
+                </div>
+
+                <h5 class="mb-3">Courses <span class="text-danger">*</span></h5>
+                <div class="form-group">
+                    <label for="courses">Course Details</label>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Course</th>
+                            <th>Level</th>
+                            <th>Language</th>
+                            <th>Start Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><input type="text" class="form-control" placeholder="Course"></td>
+                            <td><input type="text" class="form-control" placeholder="Level"></td>
+                            <td><input type="text" class="form-control" placeholder="Language"></td>
+                            <td><input type="date" class="form-control"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-primary">+ Add new record</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Comments</label>
+                    <textarea class="form-control" id="comments" rows="3" placeholder="Comments"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
