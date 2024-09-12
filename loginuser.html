@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Tech Solutions</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .header .logo {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .header .logo a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .header .logo a:hover {
+            color: #f8c52c;
+        }
+
+        .header .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .navbar .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .header .navbar .nav-list a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .header .navbar .nav-list a:hover {
+            color: #f8c52c;
+        }
+
+        /* Authentication Section */
+        .auth-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            background-image: url("WhatsApp Image 2024-09-08 at 11.49.33 AM.jpeg"); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            padding: 0 20px;
+            position: relative;
+            min-height: calc(100vh - 60px); /* Adjusted for fixed header height */
+            margin-top: 60px; /* Adjusted for fixed header height */
+        }
+
+        .auth-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s, padding 0.3s;
+        }
+
+        .auth-container h2 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .auth-container input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .auth-container input:focus {
+            border-color: #f8c52c;
+            outline: none;
+        }
+
+        .auth-container button {
+            background-color: #f8c52c;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-bottom: 10px;
+            flex: 1;
+        }
+
+        .auth-container button:hover {
+            background-color: #e0a800;
+            transform: translateY(-3px);
+        }
+
+        .auth-container p {
+            margin-top: 20px;
+        }
+
+        .auth-container a {
+            color: #f8c52c;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .auth-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* Additional Buttons */
+        .auth-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .auth-buttons button {
+            flex: 1 1 calc(50% - 10px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .auth-container {
+                width: 100%;
+                padding: 20px;
+                transform: scale(0.95);
+            }
+
+            .auth-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .auth-buttons button {
+                margin: 5px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-container {
+                transform: scale(0.9);
+            }
+
+            .header .logo {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo"><a href="index.html">Tech Solutions</a></div>
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <h2>Login to User Account</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <input type="text" id="loginUserId" placeholder="Username" required />
+                <input type="password" id="loginPassword" placeholder="Password" required />
+
+                <div class="auth-buttons">
+                    <button type="button" onclick="loginAsUser()">Login as User</button>
+                    <button type="button" onclick="loginAsAdmin()">Login as Admin</button>
+                </div>
+                <p id="error-message" style="color: red; display: none;">Invalid username or password</p>
+                <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault(); // Prevents the default form submission
+        }
+
+        function validateFields() {
+            const username = document.getElementById("loginUserId").value.trim();
+            const password = document.getElementById("loginPassword").value.trim();
+
+            if (!username || !password) {
+                alert("Please fill in both the username and password fields.");
+                return false;
+            }
+
+            return true;
+        }
+
+        async function loginAsUser() {
+            if (validateFields()) {
+                const username = document.getElementById("loginUserId").value;
+                const password = document.getElementById("loginPassword").value;
+                const errorMessage = document.getElementById('error-message');
+
+                try {
+                    // Fetch users data
+                    const response = await fetch('data/users.json');
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const users = await response.json();
+
+                    // Check if user exists
+                    const user = users.find(u => u.username === username && u.password === password);
+
+                    if (user) {
+                        // Redirect to dashboard with user ID
+                        window.location.href = `user.html?userId=${user.id}`;
+                    } else {
+                        // Show error message
+                        errorMessage.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                    errorMessage.style.display = 'block';
+                }
+            }
+        }
+
+        function loginAsAdmin() {
+                // Redirect to admin page only if fields are filled
+                window.location.href = "login.html";
+            
+        }
+    </script>
+</body>
+</html>
