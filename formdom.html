@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Table Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+            margin-bottom: 10px;
+        }
+
+        input[type="number"] {
+            padding: 5px;
+            width: 80px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #tableContainer {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Dynamic Table Generator</h1>
+    <form id="tableForm">
+        <label for="rows">Number of Rows:</label>
+        <input type="number" id="rows" name="rows" min="1" max="20" value="5">
+        <br>
+        <label for="columns">Number of Columns:</label>
+        <input type="number" id="columns" name="columns" min="1" max="10" value="5">
+        <br>
+        <button type="button" onclick="generateTable()">Generate Table</button>
+    </form>
+
+    <div id="tableContainer"></div>
+
+    <script>
+        function generateTable() {
+            const rows = parseInt(document.getElementById('rows').value);
+            const columns = parseInt(document.getElementById('columns').value);
+            
+            if (isNaN(rows) || isNaN(columns) || rows <= 0 || columns <= 0) {
+                alert('Please enter valid numbers for rows and columns.');
+                return;
+            }
+
+            const tableContainer = document.getElementById('tableContainer');
+            tableContainer.innerHTML = ''; // Clear any existing table
+
+            const table = document.createElement('table');
+            
+            // Creating table headers
+            const headerRow = document.createElement('tr');
+            for (let j = 0; j < columns; j++) {
+                const th = document.createElement('th');
+                th.textContent = `Column ${j + 1}`;
+                headerRow.appendChild(th);
+            }
+            table.appendChild(headerRow);
+
+            // Creating rows and columns
+            for (let i = 0; i < rows; i++) {
+                const tr = document.createElement('tr');
+                for (let j = 0; j < columns; j++) {
+                    const td = document.createElement('td');
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.placeholder = `Row ${i + 1}, Col ${j + 1}`;
+                    td.appendChild(input);
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+
+            tableContainer.appendChild(table);
+        }
+    </script>
+
+</body>
+</html>
