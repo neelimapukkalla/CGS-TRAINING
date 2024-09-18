@@ -1,0 +1,78 @@
+body{
+    box-sizing: border-box;
+    position: relative;
+    font-family: 'Segoe UI';
+}
+#navbar{
+    display: flex;
+    background-color: lightblue;
+    justify-content: space-evenly;
+    color: white;
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+#container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.left{
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    background-color: lightgreen;
+    width: 25%;
+}
+.right{
+    padding: 20px;
+    display: inline-block;
+    width: 55%;
+    background-color: pink;
+}
+#courses{
+    background-color: white;
+    width: 98%;
+}
+#courses div{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+input{
+    width: 92%;
+    padding: 15px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    border: none;
+    font-size: 1.2em;
+}
+.right,.left,#courses{
+    border-radius: 20px;
+}
+img{
+    width: 100px;
+    height: 100px;
+    padding: 25px;
+}
+img:hover{
+    width: 125px;
+    height: 125px;
+    padding: 10px;
+}
+h2{
+    width: 70%;
+    background-color: rgb(106, 222, 106);
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+h4{
+    min-width: 50px;
+    padding: 3px;
+    background-color: rgb(65, 65, 130);
+    border-radius: 5px;
+    text-align: center;
+}

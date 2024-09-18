@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 50px; /* Space for the notification */
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: #ffffff;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            transition: all 0.3s;
+        }
+        .sidebar h2 {
+            text-align: center;
+            color: #ffc107;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+        }
+        .sidebar ul li a:hover {
+            background-color: #495057;
+            border-radius: 5px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .header {
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-section {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #343a40;
+        }
+        .details {
+            display: none;
+        }
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #28a745;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+            z-index: 1050;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        Logged in as User successfully!
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>User Dashboard</h2>
+        <ul>
+            <li><a href="#" onclick="showSection('viewRequests')">View Requests</a></li>
+            <li><a href="#" onclick="showSection('viewProfile')">View Profile</a></li>
+            <li><a href="#" onclick="showSection('editProfile')">Edit Profile</a></li>
+            <li><a href="login.html">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Welcome, <span id="userName">User</span></h1>
+            <span>Logged in as: <span id="userEmail">User</span></span>
+        </div>
+
+        <!-- View Requests Section -->
+        <div id="viewRequests" class="dashboard-section">
+            <h2>My IT Requests</h2>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Request</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="requestList"></tbody>
+            </table>
+        </div>
+
+        <!-- View Profile Section -->
+        <div id="viewProfile" class="dashboard-section" style="display: none;">
+            <h2>Profile Details</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> <span id="profileName"></span></p>
+                    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                    <p><strong>Phone:</strong> <span id="profilePhone"></span></p>
+                    <p><strong>Address:</strong> <span id="profileAddress"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile Section -->
+        <div id="editProfile" class="dashboard-section" style="display: none;">
+            <h2>Edit Profile</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="editName">Name</label>
+                    <input type="text" class="form-control" id="editName">
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" class="form-control" id="editEmail">
+                </div>
+                <div class="form-group">
+                    <label for="editPhone">Phone</label>
+                    <input type="text" class="form-control" id="editPhone">
+                </div>
+                <div class="form-group">
+                    <label for="editAddress">Address</label>
+                    <input type="text" class="form-control" id="editAddress">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="saveProfile()">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Sample data - Load this from a JSON file in a real application
+        const users = [
+            { id: 1, name: 'John Doe', email: 'john.doe@example.com', phone: '123-456-7890', address: '123 Main St, Anytown, USA' },
+            { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', phone: '987-654-3210', address: '456 Oak St, Anytown, USA' },
+            { id: 3, name: 'Harsha', email: 'harsha@gmail.com', phone: '720-721-1227', address: 'ganapthi nagar 2nd street,mallayapeta,rjy' },
+            { id: 4, name: 'Neelima', email: 'neelima@gmail.com', phone: '630-281-4081',address: 'Raghudevapuram'},
+            { id: 5, name: 'Sanjana',email: 'sanju@gmail.com', phone: '824-757-1665', address: 'Surampalem'}
+        ];
+
+        const requests = [
+            { id: 1, request: 'Setup New Workstation', status: 'Open' },
+            { id: 2, request: 'Install Antivirus Software', status: 'In Progress' },
+            { id: 3, request: 'Reset Password', status: 'Closed' }
+        ];
+
+        // Show and hide sections
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Get query parameter
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Load data into tables and profile
+        function loadData() {
+            const userId = getQueryParameter('userId');
+            const user = users.find(u => u.id == userId);
+
+            if (user) {
+                // Display user info
+                document.getElementById('userName').innerText = user.name;
+                document.getElementById('userEmail').innerText = user.email;
+
+                // Load requests
+                const requestList = document.getElementById('requestList');
+                requests.forEach(request => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${request.id}</td>
+                        <td>${request.request}</td>
+                        <td>${request.status}</td>
+                        <td><button class="btn btn-info btn-sm">View</button></td>
+                    `;
+                    requestList.appendChild(row);
+                });
+
+                // Load profile
+                document.getElementById('profileName').innerText = user.name;
+                document.getElementById('profileEmail').innerText = user.email;
+                document.getElementById('profilePhone').innerText = user.phone;
+                document.getElementById('profileAddress').innerText = user.address;
+
+                // Load profile form
+                document.getElementById('editName').value = user.name;
+                document.getElementById('editEmail').value = user.email;
+                document.getElementById('editPhone').value = user.phone;
+                document.getElementById('editAddress').value = user.address;
+
+                // Show notification
+                document.getElementById('notification').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('notification').style.display = 'none';
+                }, 3000); // Hide after 3 seconds
+            }
+        }
+
+        // Save profile changes
+        function saveProfile() {
+            const userId = getQueryParameter('userId');
+            const user = users.find(u => u.id == userId);
+
+            if (user) {
+                user.name = document.getElementById('editName').value;
+                user.email = document.getElementById('editEmail').value;
+                user.phone = document.getElementById('editPhone').value;
+                user.address = document.getElementById('editAddress').value;
+
+                // Update profile view
+                document.getElementById('profileName').innerText = user.name;
+                document.getElementById('profileEmail').innerText = user.email;
+                document.getElementById('profilePhone').innerText = user.phone;
+                document.getElementById('profileAddress').innerText = user.address;
+
+                alert('Profile updated successfully!');
+            }
+        }
+
+        // Initialize data
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            
+            background: url(Leonardo_Anime_XL_A_dynamically_transforming_Celsius_to_Fahren_2.jpg) no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+        }
+
+        .converter-container {
+            margin-top: 50px;
+            background: rgba(34, 34, 59, 0.85); 
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            color: #ffffff; 
+        }
+
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00b4d8; 
+        }
+
+        .btn-primary {
+            background-color: #00b4d8; 
+            border-color: #00b4d8;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0077b6;
+            box-shadow: 0 4px 8px rgba(0, 183, 217, 0.5);
+        }
+
+        label {
+            color: #ffffff; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 converter-container">
+            <h2 class="text-center mb-4">Temperature Converter</h2>
+            <form id="converterForm">
+                <div class="form-group">
+                    <label for="temperatureInput">Enter Temperature</label>
+                    <input type="number" class="form-control" id="temperatureInput" placeholder="Enter temperature" required>
+                </div>
+                <div class="form-group">
+                    <label for="fromUnit">Convert From</label>
+                    <select class="form-control" id="fromUnit" required>
+                        <option value="celsius">Celsius</option>
+                        <option value="fahrenheit">Fahrenheit</option>
+                        <option value="kelvin">Kelvin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="toUnit">Convert To</label>
+                    <select class="form-control" id="toUnit" required>
+                        <option value="celsius">Celsius</option>
+                        <option value="fahrenheit">Fahrenheit</option>
+                        <option value="kelvin">Kelvin</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Convert</button>
+            </form>
+            <div id="result" class="mt-4 text-center"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    document.getElementById('converterForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const inputTemperature = parseFloat(document.getElementById('temperatureInput').value);
+        const fromUnit = document.getElementById('fromUnit').value;
+        const toUnit = document.getElementById('toUnit').value;
+        let result;
+
+        if (isNaN(inputTemperature)) {
+            result = 'Please enter a valid temperature.';
+        } else {
+            result = convertTemperature(inputTemperature, fromUnit, toUnit);
+        }
+
+        document.getElementById('result').innerText = `Converted Temperature: ${result}`;
+    });
+
+    function convertTemperature(value, fromUnit, toUnit) {
+        let celsiusValue;
+
+        
+        if (fromUnit === 'celsius') {
+            celsiusValue = value;
+        } else if (fromUnit === 'fahrenheit') {
+            celsiusValue = (value - 32) * 5 / 9;
+        } else if (fromUnit === 'kelvin') {
+            celsiusValue = value - 273.15;
+        }
+
+        
+        if (toUnit === 'celsius') {
+            return `${celsiusValue.toFixed(2)} °C`;
+        } else if (toUnit === 'fahrenheit') {
+            return `${(celsiusValue * 9 / 5 + 32).toFixed(2)} °F`;
+        } else if (toUnit === 'kelvin') {
+            return `${(celsiusValue + 273.15).toFixed(2)} K`;
+        }
+    }
+</script>
+
+</body>
+</html>

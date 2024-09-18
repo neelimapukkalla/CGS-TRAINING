@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - Tech Solutions</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .header .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header .logo {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .header .logo a {
+            color: #fff; /* White color */
+            text-decoration: none; /* No underline */
+            transition: color 0.3s;
+        }
+
+        .header .logo a:hover {
+            color: #f8c52c; /* Orangy-yellow on hover */
+        }
+
+        .header .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .navbar .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .header .navbar .nav-list a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        /* Authentication Section */
+        .auth-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('WhatsApp\ Image\ 2024-09-08\ at\ 11.49.33\ AM.jpeg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            padding-top: 80px; /* Adjusted for fixed header */
+        }
+
+        .auth-container {
+            background: rgba(255, 255, 255, 0.9); /* Add transparency to see background image */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        .auth-container h2 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .auth-container input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .auth-container button {
+            background-color: #f8c52c;
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .auth-container button:hover {
+            background-color: #e0a800;
+        }
+
+        .auth-container p {
+            margin-top: 20px;
+        }
+
+        .auth-container a {
+            color: #f8c52c;
+            text-decoration: none;
+        }
+
+        .auth-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* Password Strength Meter */
+        .password-strength {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .strength-bar {
+            height: 10px;
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .strength-bar div {
+            height: 100%;
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+
+        .strength-weak { background-color: #ff4d4d; }
+        .strength-medium { background-color: #ffa500; }
+        .strength-strong { background-color: #4caf50; }
+
+        /* Password Mismatch Warning */
+        .password-warning {
+            color: #ff4d4d;
+            font-size: 0.9rem;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        /* Show Password Checkbox */
+        .show-password-container {
+            display: flex;
+            align-items: center;
+            margin-top: -10px; /* Adjust for alignment */
+        }
+
+        .show-password-container input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .auth-container {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo"><a href="index.html">Tech Solutions</a></div>
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Signup Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <h2>Create Your Account</h2>
+            <form id="signupForm">
+                <input type="text" id="signupName" placeholder="Full Name" required>
+                <input type="email" id="signupEmail" placeholder="Email" required>
+                
+                <input type="password" id="signupPassword" placeholder="Create Password" required oninput="checkPasswordStrength()">
+                <div class="password-strength">
+                    <label for="passwordStrength">Password Strength:</label>
+                    <div class="strength-bar"><div id="passwordStrength" class=""></div></div>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required oninput="checkPasswordMatch()">
+                    <div class="show-password-container">
+                        <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()"> Show Password
+                    </div>
+                </div>
+
+                <div id="passwordMismatchWarning" class="password-warning"></div>
+
+                <button type="button" onclick="signup()">Sign Up</button>
+            </form>
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </div>
+    </section>
+
+    <script>
+        function checkPasswordStrength() {
+            const password = document.getElementById('signupPassword').value;
+            const strengthBar = document.getElementById('passwordStrength');
+            let strength = 0;
+            
+            if (password.length > 7) strength++; // Length check
+            if (password.match(/[a-z]+/)) strength++; // Lowercase check
+            if (password.match(/[A-Z]+/)) strength++; // Uppercase check
+            if (password.match(/[0-9]+/)) strength++; // Number check
+            if (password.match(/[\W]+/)) strength++; // Special character check
+            
+            switch (strength) {
+                case 1:
+                case 2:
+                    strengthBar.style.width = "33%";
+                    strengthBar.className = "strength-weak";
+                    break;
+                case 3:
+                case 4:
+                    strengthBar.style.width = "66%";
+                    strengthBar.className = "strength-medium";
+                    break;
+                case 5:
+                    strengthBar.style.width = "100%";
+                    strengthBar.className = "strength-strong";
+                    break;
+                default:
+                    strengthBar.style.width = "0%";
+                    strengthBar.className = "";
+                    break;
+            }
+        }
+
+        function checkPasswordMatch() {
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const warning = document.getElementById('passwordMismatchWarning');
+            
+            if (password !== confirmPassword) {
+                warning.textContent = "Passwords do not match";
+            } else {
+                warning.textContent = "";
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const password = document.getElementById('signupPassword');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const showPasswordCheckbox = document.getElementById('showPassword');
+
+            if (showPasswordCheckbox.checked) {
+                password.type = "text";
+                confirmPassword.type = "text";
+            } else {
+                password.type = "password";
+                confirmPassword.type = "password";
+            }
+        }
+
+        function signup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password === confirmPassword) {
+                alert('Signup successful');
+                // Placeholder for signup functionality
+            } else {
+                alert('Passwords do not match. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

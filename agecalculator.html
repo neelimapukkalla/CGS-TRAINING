@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Age Calculator</h1>
+        <form id="ageForm">
+            <div class="input-group">
+                <label for="currentDate">Current Date:</label>
+                <input type="date" id="currentDate" required>
+            </div>
+            <div class="input-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" required>
+            </div>
+            <button type="button" id="calculateButton" onclick="calculateAge()">Calculate Age</button>
+        </form>
+        <p id="result">Your age will be displayed here</p>
+    </div>
+
+    <script>
+        function calculateAge() {
+            const currentDate = new Date(document.getElementById('currentDate').value);
+            const dob = new Date(document.getElementById('dob').value);
+
+            if (!currentDate || !dob) {
+                document.getElementById('result').textContent = "Please select both dates.";
+                return;
+            }
+
+            let age = currentDate.getFullYear() - dob.getFullYear();
+            const monthDiff = currentDate.getMonth() - dob.getMonth();
+            const dayDiff = currentDate.getDate() - dob.getDate();
+
+            if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+                age--;
+            }
+
+            if (age >= 0) {
+                document.getElementById('result').textContent = `Your current age is ${age} years.`;
+            } else {
+                document.getElementById('result').textContent = "The date of birth cannot be in the future.";
+            }
+        }
+    </script>
+</body>
+</html>

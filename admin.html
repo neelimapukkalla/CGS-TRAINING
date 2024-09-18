@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Service Management Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 50px; /* Space for the notification */
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: #ffffff;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            transition: all 0.3s;
+        }
+        .sidebar h2 {
+            text-align: center;
+            color: #ffc107;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+        }
+        .sidebar ul li a:hover {
+            background-color: #495057;
+            border-radius: 5px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .header {
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-section {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #343a40;
+        }
+        .table .btn {
+            font-size: 0.9rem;
+        }
+        .details {
+            display: none;
+        }
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #28a745;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+            z-index: 1050;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        Logged in as Admin successfully!
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>IT Service Admin</h2>
+        <ul>
+            <li><a href="#" onclick="showSection('dashboardOverview')">Dashboard Overview</a></li>
+            <li><a href="#" onclick="showSection('serviceRequests')">Manage IT Requests</a></li>
+            <li><a href="#" onclick="showSection('incidentManagement')">Incident Management</a></li>
+            <li><a href="#" onclick="showSection('changeManagement')">Change Management</a></li>
+            <li><a href="#" onclick="showSection('assetManagement')">Asset Management</a></li>
+            <li><a href="#" onclick="showSection('userManagement')">User Management</a></li>
+            <li><a href="login.html">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <span>Logged in as: Admin</span>
+        </div>
+
+        <!-- Dashboard Overview Section -->
+        <div id="dashboardOverview" class="dashboard-section">
+            <h2>Dashboard Overview</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Requests</h5>
+                            <p class="card-text">15</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-warning mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Open Incidents</h5>
+                            <p class="card-text">8</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Pending Changes</h5>
+                            <p class="card-text">5</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Requests Section -->
+        <div id="serviceRequests" class="dashboard-section" style="display: none;">
+            <h2>Manage IT Requests</h2>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Request</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="requestList"></tbody>
+            </table>
+        </div>
+
+        <!-- Incident Management Section -->
+        <div id="incidentManagement" class="dashboard-section" style="display: none;">
+            <h2>Incident Management</h2>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Incident</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="incidentList"></tbody>
+            </table>
+        </div>
+
+        <!-- Change Management Section -->
+        <div id="changeManagement" class="dashboard-section" style="display: none;">
+            <h2>Change Management</h2>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Change Request</th>
+                        <th>Status</th>
+                        <th>Impact</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="changeList"></tbody>
+            </table>
+        </div>
+
+        <!-- Asset Management Section -->
+        <div id="assetManagement" class="dashboard-section" style="display: none;">
+            <h2>Asset Management</h2>
+            <p>Manage your IT assets here...</p>
+        </div>
+
+        <!-- User Management Section -->
+        <div id="userManagement" class="dashboard-section" style="display: none;">
+            <h2>User Management</h2>
+            <p>Manage users, roles, and permissions...</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const requests = [
+            { id: 1, request: 'Setup New Workstation', status: 'Open' },
+            { id: 2, request: 'Install Antivirus Software', status: 'In Progress' },
+            { id: 3, request: 'Reset Password', status: 'Closed' }
+        ];
+
+        const incidents = [
+            { id: 1, incident: 'Network Outage', status: 'Open', priority: 'High', details: 'Network down in the main office.' },
+            { id: 2, incident: 'Email Server Down', status: 'In Progress', priority: 'Medium', details: 'Email server is experiencing issues.' },
+            { id: 3, incident: 'Printer Not Working', status: 'Open', priority: 'Low', details: 'Printer not responding due to driver issue.' }
+        ];
+
+        const changes = [
+            { id: 1, request: 'Update to Windows 11', status: 'Pending', impact: 'High' },
+            { id: 2, request: 'Deploy New Firewall', status: 'Approved', impact: 'Medium' },
+            { id: 3, request: 'Upgrade Database Server', status: 'Completed', impact: 'Low' }
+        ];
+
+        // Show and hide sections
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Toggle incident details
+        function toggleDetails(id) {
+            const details = document.getElementById(`details-${id}`);
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Load data into tables
+        function loadData() {
+            const requestList = document.getElementById('requestList');
+            const incidentList = document.getElementById('incidentList');
+            const changeList = document.getElementById('changeList');
+
+            requests.forEach(request => {
+                requestList.innerHTML += `
+                    <tr>
+                        <td>${request.id}</td>
+                        <td>${request.request}</td>
+                        <td>${request.status}</td>
+                        <td><button class="btn btn-info btn-sm">View</button></td>
+                    </tr>
+                `;
+            });
+
+            incidents.forEach(incident => {
+                incidentList.innerHTML += `
+                    <tr>
+                        <td>${incident.id}</td>
+                        <td>${incident.incident}</td>
+                        <td>${incident.status}</td>
+                        <td>${incident.priority}</td>
+                        <td><button class="btn btn-info btn-sm" onclick="toggleDetails(${incident.id})">Details</button></td>
+                    </tr>
+                    <tr id="details-${incident.id}" class="details">
+                        <td colspan="5">${incident.details}</td>
+                    </tr>
+                `;
+            });
+
+            changes.forEach(change => {
+                changeList.innerHTML += `
+                    <tr>
+                        <td>${change.id}</td>
+                        <td>${change.request}</td>
+                        <td>${change.status}</td>
+                        <td>${change.impact}</td>
+                        <td><button class="btn btn-info btn-sm">Review</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Display notification
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000); // Hide after 3 seconds
+        }
+
+        // Initialize data and show notification
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            showNotification();
+        });
+    </script>
+</body>
+</html>
